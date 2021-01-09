@@ -17,5 +17,8 @@ spec:
     port: 8080
     targetPort: 8080
     name: 8080-sabnzbd
-
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+    name: 80to8080-sabnzbd
 
