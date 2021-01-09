@@ -6,7 +6,20 @@ metadata:
 data:
   config: |
     address-pools:
-    - name: default
+    - name: plex
       protocol: layer2
       addresses:
-      - 192.168.1.240-192.168.1.250
+      - 192.168.1.240-192.168.1.240
+    - name: sabnzbd
+      protocol: layer2
+      addresses:
+      - 192.168.1.241-192.168.1.241
+    - name: radarr
+      protocol: layer2
+      addresses:
+      - 192.168.1.242-192.168.1.242
+    - name: sonarr
+      protocol: layer2
+      addresses:
+      - 192.168.1.243-192.168.1.243
+

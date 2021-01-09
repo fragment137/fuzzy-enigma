@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: radarr-tcp
+  namespace: radarr
+  annotations:
+    metallb.universe.tf/address-pool: radarr
+    metallb.universe.tf/allow-shared-ip: radarr
+  labels:
+    app: radarr
+spec:
+  type: LoadBalancer
+  selector:
+    app: radarr
+  ports:
+  - protocol: TCP
+    port: 32400
+    targetPort: 32400
+    name: 32400-radarr
+
+

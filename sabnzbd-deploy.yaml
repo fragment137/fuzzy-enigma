@@ -2,7 +2,8 @@
  apiVersion: apps/v1
  kind: Deployment
  metadata:
-   name: sabnzbd
+   name: sabnzbd-deployment
+   namespace: sabnzbd
    labels:
      app: sabnzbd
  spec:
@@ -22,30 +23,23 @@
            ports:
              - containerPort: 6789
            volumeMounts:
-             - mountPath: /configs
+             - mountPath: /config
                name: sabnzbd-config
-             - mountPath: /complete
+             - mountPath: /Downloads
                name: sabnzbd-downloads
-             - mountPath: /incomplete
-               name: sabnzbd-incomplete
       volumes:
         - name: sabnzbd-config
-          nfs:
-            server: 192.168.1.60
-            path: /media/bigdata/storage/
+          persistentVolumeClaim:
+             claimName: sabnzbd-pv-config-claim
         - name: sabnzbd-downloads
-          nfs:
-            server: 192.168.1.60
-            path: /media/bigdata/storage/Downloads
-        - name: sabnzbd-incomplete
-          nfs:
-            server: 192.168.1.60
-            path: /media/bigdata/storage/Downloads
+          persistentVolumeClaim:
+             claimName: sabnzbd-pv-media-claim
 ---
 kind: Service
 apiVersion: v1
 metadata:
   name: sabnzbd
+  namespace: sabnzbd
 spec:
   selector:
     app: sabnzbd

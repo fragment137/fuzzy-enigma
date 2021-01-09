@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: sonarr-pv-media-volume
+  namespace: sonarr
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 7300Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    path: /media/bigdata/storage/
+    server: 192.168.1.60
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sonarr-pv-media-claim
+  namespace: sonarr
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 7300Gi
