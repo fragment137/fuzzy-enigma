@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: radarr-tcp
+  namespace: radarr
+  annotations:
+    metallb.universe.tf/address-pool: radarr
+    metallb.universe.tf/allow-shared-ip: radarr
+  labels:
+    app: radarr
+spec:
+  type: LoadBalancer
+  selector:
+    app: radarr
+  ports:
+  - protocol: TCP
+    port: 7878
+    targetPort: 7878
+    name: 7878-radarr
+  - protocol: TCP
+    port: 80
+    targetPort: 7878
+    name: 80to7878-radarr
+

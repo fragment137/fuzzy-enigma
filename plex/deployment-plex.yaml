@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plex
+  namespace: plex
+  labels:
+    app: plex
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: plex
+  template:
+    metadata:
+      labels:
+        app: plex
+    spec:
+      containers:
+      - name: plex-app
+        image: linuxserver/plex
+        resources:
+          limits:
+#            nvidia.com/gpu: 1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 32400
+        env:
+        - name: ADVERTISE_IP
+          value: "http://192.168.1.247:32400/"
+        - name: VERSION
+          value: "latest"
+        - name: PUID
+          value: "65534"
+        - name: PGID
+          value: "65534"
+        - name: TZ
+          value: "America/Toronto"
+        volumeMounts:
+        - name: plex-data
+          mountPath: /config
+        - name: plex-movies
+          mountPath: /movies
+        - name: plex-tv
+          mountPath: /tv
+      volumes:
+      - name: plex-data
+        persistentVolumeClaim:
+          claimName: plex-pv-config-claim
+      - name: plex-movies
+        persistentVolumeClaim:
+          claimName: plex-pv-media-claim
