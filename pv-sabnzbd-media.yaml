@@ -12,7 +12,7 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    path: /media/bigdata/storage/Downloads
+    path: /media/bigdata/storage
     server: 192.168.1.60
 ---
 apiVersion: v1

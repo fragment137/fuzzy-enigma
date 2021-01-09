@@ -14,8 +14,8 @@ spec:
     app: radarr
   ports:
   - protocol: TCP
-    port: 32400
-    targetPort: 32400
-    name: 32400-radarr
+    port: 80
+    targetPort: 7878
+    name: 7878-radarr
 
 

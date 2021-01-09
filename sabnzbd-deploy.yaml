@@ -25,13 +25,13 @@
            volumeMounts:
              - mountPath: /config
                name: sabnzbd-config
-             - mountPath: /Downloads
-               name: sabnzbd-downloads
+             - mountPath: /media
+               name: sabnzbd-media
       volumes:
         - name: sabnzbd-config
           persistentVolumeClaim:
              claimName: sabnzbd-pv-config-claim
-        - name: sabnzbd-downloads
+        - name: sabnzbd-media
           persistentVolumeClaim:
              claimName: sabnzbd-pv-media-claim
 ---
