@@ -30,9 +30,9 @@ spec:
         - name: VERSION
           value: "latest"
         - name: PUID
-          value: "65534"
+          value: "911"
         - name: PGID
-          value: "65534"
+          value: "911"
         - name: TZ
           value: "America/Toronto"
         volumeMounts:
