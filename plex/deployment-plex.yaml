@@ -29,10 +29,6 @@ spec:
           value: "http://192.168.1.240:32400/"
         - name: VERSION
           value: "latest"
-        - name: PUID
-          value: "911"
-        - name: PGID
-          value: "911"
         - name: TZ
           value: "America/Toronto"
         volumeMounts:
