@@ -31,6 +31,8 @@ spec:
           value: "latest"
         - name: TZ
           value: "America/Toronto"
+        - name: PLEX_CLAIM
+          value: "claim-tNeAxqU9oTv7LvefSd9d"
         volumeMounts:
         - name: plex-data
           mountPath: /config
