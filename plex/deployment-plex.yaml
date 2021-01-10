@@ -37,7 +37,7 @@ spec:
         - name: plex-data
           mountPath: /config
         - name: plex-media
-          mountPath: /media
+          mountPath: /storage
       volumes:
       - name: plex-data
         persistentVolumeClaim:
