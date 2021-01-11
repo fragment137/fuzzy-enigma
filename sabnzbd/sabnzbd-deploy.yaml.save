@@ -1,0 +1,36 @@
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: sabnzbd-deployment
+   namespace: sabnzbd
+   labels:
+     app: sabnzbd
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: sabnzbd
+   template:
+     metadata:
+       labels:
+         app: sabnzbd
+ 
+     spec:
+      containers:
+         - name: sabnzbd
+           image: linuxserver/sabnzbd
+           ports:
+             - containerPort: 6789
+           volumeMounts:
+             - mountPath: /config
+               name: sabnzbd-config
+             - mountPath: /media
+               name: sabnzbd-media
+      volumes:
+        - name: sabnzbd-config
+          persistentVolumeClaim:
+             claimName: sabnzbd-pv-config-claim
+        - name: sabnzbd-media
+          persistentVolumeClaim:
+             claimName: sabnzbd-pv-media-claim
