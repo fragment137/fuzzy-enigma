@@ -19,9 +19,11 @@ spec:
       - name: plex-app
         image: linuxserver/plex
         requests:
-          cpu: 750m
+          cpu: "0.5"
+          memory: "1Gi"
         limits:
-          cpu: 900m
+          cpu: "1.0"
+          memory: "2Gi"
 #            nvidia.com/gpu: 1
         imagePullPolicy: Always
         ports:
