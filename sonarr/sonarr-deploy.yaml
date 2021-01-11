@@ -25,7 +25,7 @@
            volumeMounts:
              - mountPath: /config
                name: sonarr-config
-             - mountPath: /media
+             - mountPath: /storage
                name: sonarr-media
       volumes:
         - name: sonarr-config
