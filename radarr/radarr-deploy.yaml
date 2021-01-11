@@ -20,6 +20,13 @@
       containers:
          - name: radarr
            image: linuxserver/radarr
+           resources:
+              requests:
+                 cpu: "0.2"
+                 memory: "1Gi"
+              limits:
+                 cpu: "0.5"
+                 memory: "2Gi"
            ports:
              - containerPort: 7878
            volumeMounts:

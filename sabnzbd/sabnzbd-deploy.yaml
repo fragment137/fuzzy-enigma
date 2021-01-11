@@ -20,6 +20,11 @@
       containers:
          - name: sabnzbd
            image: linuxserver/sabnzbd
+           resources:
+             limits:
+                cpu: "1"
+             requests:
+                cpu: "0.5"
            ports:
              - containerPort: 6789
            volumeMounts:
