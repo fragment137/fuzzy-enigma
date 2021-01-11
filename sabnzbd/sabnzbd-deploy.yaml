@@ -18,6 +18,10 @@
  
      spec:
       containers:
+         requests:
+            cpu: 500m
+          limits:
+            cpu: 750m
          - name: sabnzbd
            image: linuxserver/sabnzbd
            ports:

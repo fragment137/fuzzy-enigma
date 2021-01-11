@@ -18,11 +18,10 @@ spec:
       containers:
       - name: plex-app
         image: linuxserver/plex
-        resources:
-          requests:
-            cpu: 500m
-          limits:
-            cpu: 800m
+        requests:
+          cpu: 750m
+        limits:
+          cpu: 900m
 #            nvidia.com/gpu: 1
         imagePullPolicy: Always
         ports:
