@@ -2,42 +2,42 @@
  apiVersion: apps/v1
  kind: Deployment
  metadata:
-   name: sonarr-deployment
-   namespace: sonarr
+   name: deluge-deployment
+   namespace: deluge
    labels:
-     app: sonarr
+     app: deluge
  spec:
    replicas: 1
    selector:
       matchLabels:
-        app: sonarr
+        app: deluge
    template:
      metadata:
        labels:
-         app: sonarr
+         app: deluge
  
      spec:
       containers:
-         - name: sonarr
-           image: linuxserver/sonarr
+         - name: deluge
+           image: linuxserver/deluge
            resources:
               requests:
                  cpu: "0.5"
                  memory: "500Mi"
               limits:
-                 cpu: "1"
-                 memory: "1Gi"
+                 cpu: "1.0"
+                 memory: "2Gi"
            ports:
              - containerPort: 8989
            volumeMounts:
              - mountPath: /config
-               name: sonarr-config
+               name: deluge-config
              - mountPath: /storage
-               name: sonarr-media
+               name: deluge-media
       volumes:
-        - name: sonarr-config
+        - name: deluge-config
           persistentVolumeClaim:
-             claimName: sonarr-pv-config-claim
-        - name: sonarr-media
+             claimName: deluge-pv-config-claim
+        - name: deluge-media
           persistentVolumeClaim:
-             claimName: sonarr-pv-media-claim
+             claimName: deluge-pv-media-claim

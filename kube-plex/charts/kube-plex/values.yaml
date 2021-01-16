@@ -125,10 +125,10 @@ resources:
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
    limits:
-      cpu: "2.0"
+      cpu: "4.0"
       memory: "4Gi"
    requests:
-      cpu: "1.0"
+      cpu: "2.0"
       memory: "2Gi"
 
 podAnnotations: {}

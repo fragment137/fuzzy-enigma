@@ -7,11 +7,11 @@ metadata:
     metallb.universe.tf/address-pool: plex
     metallb.universe.tf/allow-shared-ip: plex
   labels:
-    app: kube-plex
+    app: plex
 spec:
   type: LoadBalancer
   selector:
-    app: kube-plex
+    app: plex
   ports:
   - protocol: TCP
     port: 32400

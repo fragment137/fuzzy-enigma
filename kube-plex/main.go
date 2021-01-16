@@ -120,7 +120,7 @@ func generatePod(cwd string, env []string, args []string) *corev1.Pod {
 					VolumeMounts: []corev1.VolumeMount{
 						{
 							Name:      "data",
-							MountPath: "/data",
+							MountPath: "/storage",
 							ReadOnly:  true,
 						},
 						{
