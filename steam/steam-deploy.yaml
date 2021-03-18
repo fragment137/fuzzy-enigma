@@ -1,0 +1,38 @@
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: steam-deployment
+   namespace: steam
+   labels:
+     app: steam
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: steam
+   template:
+     metadata:
+       labels:
+         app: steam
+ 
+     spec:
+      containers:
+         - name: steam
+           image: rpufky/steam
+           resources:
+              requests:
+                 cpu: "0.2"
+                 memory: "2Gi"
+              limits:
+                 cpu: "1.0"
+                 memory: "4Gi"
+           ports:
+             - containerPort: 27015
+           volumeMounts:
+             - mountPath: /data
+               name: steam-config
+      volumes:
+        - name: steam-config
+          persistentVolumeClaim:
+             claimName: steam-pv-config-claim

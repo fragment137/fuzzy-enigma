@@ -1,0 +1,43 @@
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: sonarr-deployment
+   namespace: sonarr
+   labels:
+     app: sonarr
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: sonarr
+   template:
+     metadata:
+       labels:
+         app: sonarr
+ 
+     spec:
+      containers:
+         - name: sonarr
+           image: linuxserver/sonarr
+           resources:
+              requests:
+                 cpu: "0.5"
+                 memory: "500Mi"
+              limits:
+                 cpu: "1"
+                 memory: "1Gi"
+           ports:
+             - containerPort: 8989
+           volumeMounts:
+             - mountPath: /config
+               name: sonarr-config
+             - mountPath: /storage
+               name: sonarr-media
+      volumes:
+        - name: sonarr-config
+          persistentVolumeClaim:
+             claimName: sonarr-pv-config-claim
+        - name: sonarr-media
+          persistentVolumeClaim:
+             claimName: sonarr-pv-media-claim
