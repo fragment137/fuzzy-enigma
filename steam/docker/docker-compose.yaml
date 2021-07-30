@@ -1,0 +1,17 @@
+version: "2"
+services:
+  steam:
+    image: rpufky/steam:stable
+    restart: unless-stopped
+    ports:
+      - 27015:27015
+      - 27015:27015/udp
+      - 27016:27016/udp
+    environment:
+      - PUID=1006
+      - PGID=1006
+      - UPDATE_OS=1
+      - UPDATE_STEAM=1
+      - UPDATE_SERVER=1
+      - PLATFORM=linux
+      - TZ=America/Toronto

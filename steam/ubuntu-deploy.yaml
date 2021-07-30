@@ -18,23 +18,14 @@ spec:
     spec:
       containers:
       - name: valheim
-        image: rpufky/steam:stable
+        image: ubuntu:latest
         command: ["/bin/sleep", "3650d"]
-        env:
-        - name: PLATFORM
-          value: linux
-        - name: TZ
-          value: America/Toronto
-        - name: STEAM_APP_ID
-          value: '896660'
         ports:
         - containerPort: 27015
         - containerPort: 27015
           protocol: UDP
         - containerPort: 27016
           protocol: UDP
-        - containerPort: 2456
-        - containerPort: 2457
         resources:
           requests:
             cpu: '0.2'

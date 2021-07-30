@@ -9,8 +9,7 @@ metadata:
   labels:
     app: steam
 spec:
-  type: LoadBalancer
-  selector:
+  type:  selector:
     app: steam
   ports:
   - protocol: UDP
@@ -21,4 +20,8 @@ spec:
     port: 27016
     targetPort: 27016
     name: steam-announce
+  - protocol: TCP
+    port: 27015
+    targetPort: 27015
+    name: steam-scrds-rcon
 

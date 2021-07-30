@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: steam
+  name: steam
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: steam
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: steam
+    spec:
+      containers:
+        - env:
+            - name: PGID
+              value: "1006"
+            - name: PLATFORM
+              value: linux
+            - name: PUID
+              value: "1006"
+            - name: TZ
+              value: America/Toronto
+            - name: UPDATE_OS
+              value: "1"
+            - name: UPDATE_SERVER
+              value: "1"
+            - name: UPDATE_STEAM
+              value: "1"
+          image: rpufky/steam:stable
+          name: steam
+          ports:
+            - containerPort: 27015
+            - containerPort: 27015
+              protocol: UDP
+            - containerPort: 27016
+              protocol: UDP
+          resources: {}
+      restartPolicy: Always
+status: {}
