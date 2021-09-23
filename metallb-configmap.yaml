@@ -33,4 +33,6 @@ data:
     - name: steam
       addresses:
       - 192.168.1.246-192.168.1.249
+    - name: home-assistant
+      - 192.168.1.250-192.168.1.250
 
