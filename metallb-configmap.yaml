@@ -26,13 +26,12 @@ data:
       protocol: layer2
       addresses:
       - 192.168.1.244-192.168.1.244
-    - name: zabbix
+    - name: bedrock
       protocol: layer2
       addresses:
       - 192.168.1.245-192.168.1.245
     - name: steam
+      protocol: layer2
       addresses:
       - 192.168.1.246-192.168.1.249
-    - name: home-assistant
-      - 192.168.1.250-192.168.1.250
 

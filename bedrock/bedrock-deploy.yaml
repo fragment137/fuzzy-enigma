@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bedrock
+  namespace: minecraft
+  labels:
+    app: bedrock
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bedrock
+  template:
+    metadata:
+      name: bedrock
+      labels:
+        app: bedrock
+    spec:
+      containers:
+        - name: bedrock
+          image: itzg/minecraft-bedrock-server
+          imagePullPolicy: Always
+          env:
+            - name: EULA
+              value: "TRUE"
+            - name: GAMEMODE
+              value: creative
+            - name: DIFFICULTY
+              value: normal
+          volumeMounts:
+            - mountPath: /data
+              name: data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bedrock-pvc

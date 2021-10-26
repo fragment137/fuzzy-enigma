@@ -5,7 +5,7 @@ metadata:
   namespace: home-assistant
   annotations:
     metallb.universe.tf/address-pool: home-assistant
-    metallb.universe.tf/allow-shared-ip: 
+    metallb.universe.tf/allow-shared-ip: home-assistant
   labels:
     app: home-assistant
 spec:
