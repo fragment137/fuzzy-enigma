@@ -1,0 +1,134 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: deluge
+  labels:
+    app: deluge
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: deluge-pv-config-volume
+  namespace: deluge
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    path: /media/bigdata/storage/configs/deluge/
+    server: 192.168.1.60
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: deluge-pv-config-claim
+  namespace: deluge
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Gi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: deluge-pv-media-volume
+  namespace: deluge
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 7300Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    path: /media/bigdata/storage
+    server: 192.168.1.60
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: deluge-pv-media-claim
+  namespace: deluge
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 7300Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deluge-tcp
+  namespace: deluge
+  annotations:
+    metallb.universe.tf/address-pool: deluge
+    metallb.universe.tf/allow-shared-ip: deluge
+  labels:
+    app: deluge
+spec:
+  type: LoadBalancer
+  selector:
+    app: deluge
+  ports:
+  - protocol: TCP
+    port: 8112
+    targetPort: 8112
+    name: 8112-deluge
+  - protocol: TCP
+    port: 80
+    targetPort: 8112
+    name: 80-8112-deluge
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: deluge
+   namespace: deluge
+   labels:
+     app: deluge
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: deluge
+   template:
+     metadata:
+       labels:
+         app: deluge
+
+     spec:
+      containers:
+         - name: deluge
+           image: linuxserver/deluge
+           resources:
+              requests:
+                 cpu: "0.5"
+                 memory: "500Mi"
+              limits:
+                 cpu: "1.0"
+                 memory: "2Gi"
+           ports:
+             - containerPort: 8989
+           volumeMounts:
+             - mountPath: /config
+               name: deluge-config
+             - mountPath: /storage
+               name: deluge-media
+      volumes:
+        - name: deluge-config
+          persistentVolumeClaim:
+             claimName: deluge-pv-config-claim
+        - name: deluge-media
+          persistentVolumeClaim:
+             claimName: deluge-pv-media-claim
+

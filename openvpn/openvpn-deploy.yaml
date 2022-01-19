@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openvpn-deployment
+  namespace: openvpn
+  labels:
+    app: openvpn
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openvpn
+  template:
+    metadata:
+      labels:
+        app: openvpn
+    spec:
+      containers:
+        - env:
+            - name: PUID
+              value: '1000'
+            - name: PGID
+              value: '1000'
+            - name: TZ
+              value: America/Toronto
+          image: linuxserver/openvpn-as
+          imagePullPolicy: IfNotPresent
+          name: openvpn-server
+          resources:
+            requests:
+              cpu: '1'
+              memory: 800Mi
+            limits:
+              cpu: '1'
+              memory: 800Gi
+          ports:
+            - containerPort: 1194
+              name: openvpn-server
+              protocol: UDP
+            - containerPort: 943
+              name: openvpn-port1
+              protocol: TCP
+            - containerPort: 9443
+              name: openvpn-port2
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /config
+              name: openvpn-config
+            - mountPath: /etc/openvpn
+              name: openvpn-data
+      volumes:
+        - name: openvpn-config
+          persistentVolumeClaim:
+            claimName: openvpn-pv-config-claim
+        - emptyDir: {}
+          name: openvpn-data

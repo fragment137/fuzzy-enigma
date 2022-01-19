@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: openvpn-gui
+  namespace: openvpn
+  annotations:
+    metallb.universe.tf/address-pool: openvpn
+    metallb.universe.tf/allow-shared-ip: openvpn
+  labels:
+    app: openvpn
+spec:
+  type: LoadBalancer
+  sessionAffinity: None
+  selector:
+    app: openvpn
+  ports:
+  - protocol: TCP
+    port: 443
+    targetPort: 943
+    name: openvpn-https

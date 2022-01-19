@@ -1,0 +1,133 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: radarr
+  labels:
+    app: radarr
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: radarr-pv-config-volume
+  namespace: radarr
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    path: /media/bigdata/storage/configs/radarr/
+    server: 192.168.1.60
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: radarr-pv-config-claim
+  namespace: radarr
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Gi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: radarr-pv-media-volume
+  namespace: radarr
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 7300Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    path: /media/bigdata/storage
+    server: 192.168.1.60
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: radarr-pv-media-claim
+  namespace: radarr
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 7300Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: radarr-tcp
+  namespace: radarr
+  annotations:
+    metallb.universe.tf/address-pool: radarr
+    metallb.universe.tf/allow-shared-ip: radarr
+  labels:
+    app: radarr
+spec:
+  type: LoadBalancer
+  selector:
+    app: radarr
+  ports:
+  - protocol: TCP
+    port: 7878
+    targetPort: 7878
+    name: 7878-radarr
+  - protocol: TCP
+    port: 80
+    targetPort: 7878
+    name: 80to7878-radarr
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: radarr
+   namespace: radarr
+   labels:
+     app: radarr
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: radarr
+   template:
+     metadata:
+       labels:
+         app: radarr
+
+     spec:
+      containers:
+         - name: radarr
+           image: linuxserver/radarr
+           resources:
+              requests:
+                 cpu: "0.2"
+                 memory: "500Mi"
+              limits:
+                 cpu: "0.5"
+                 memory: "1Gi"
+           ports:
+             - containerPort: 7878
+           volumeMounts:
+             - mountPath: /config
+               name: radarr-config
+             - mountPath: /media
+               name: radarr-media
+      volumes:
+        - name: radarr-config
+          persistentVolumeClaim:
+             claimName: radarr-pv-config-claim
+        - name: radarr-media
+          persistentVolumeClaim:
+             claimName: radarr-pv-media-claim
