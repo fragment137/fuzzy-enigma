@@ -138,7 +138,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labals:
+  labels:
     app: plex
   name: plex
   namespace: plex
