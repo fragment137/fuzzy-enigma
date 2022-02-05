@@ -2,24 +2,24 @@
  apiVersion: apps/v1
  kind: Deployment
  metadata:
-   name: sonarr
-   namespace: sonarr
+   name: plex
+   namespace: plex
    labels:
-     app: sonarr
+     app: plex
  spec:
    replicas: 1
    selector:
       matchLabels:
-        app: sonarr
+        app: plex
    template:
      metadata:
        labels:
-         app: sonarr
- 
+         app: plex
+
      spec:
       containers:
-         - name: sonarr
-           image: linuxserver/sonarr
+         - name: plex
+           image: linuxserver/plex
            resources:
               requests:
                  cpu: "2"
@@ -31,13 +31,13 @@
              - containerPort: 8989
            volumeMounts:
              - mountPath: /config
-               name: sonarr-config
+               name: plex-config
              - mountPath: /storage
-               name: sonarr-media
+               name: plex-media
       volumes:
-        - name: sonarr-config
+        - name: plex-config
           persistentVolumeClaim:
-             claimName: sonarr-pv-config-claim
-        - name: sonarr-media
+             claimName: plex-pv-config-claim
+        - name: plex-media
           persistentVolumeClaim:
-             claimName: sonarr-pv-media-claim
+             claimName: plex-pv-media-claim

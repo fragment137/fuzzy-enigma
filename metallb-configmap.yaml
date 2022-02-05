@@ -26,11 +26,11 @@ data:
       protocol: layer2
       addresses:
       - 192.168.1.244-192.168.1.244
-    - name: bedrock
+    - name: zabbix-server
       protocol: layer2
       addresses:
       - 192.168.1.245-192.168.1.245
-    - name: openvpn
+    - name: zabbix-web
       protocol: layer2
       addresses:
       - 192.168.1.246-192.168.1.246

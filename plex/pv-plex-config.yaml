@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: sonarr-pv-config-volume
-  namespace: sonarr
+  name: plex-pv-config-volume
+  namespace: plex
   labels:
     type: local
 spec:
@@ -12,14 +12,14 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    path: /media/bigdata/storage/configs/sonarr/
+    path: /media/bigdata/storage/configs/plex/
     server: 192.168.1.60
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: sonarr-pv-config-claim
-  namespace: sonarr
+  name: plex-pv-config-claim
+  namespace: plex
 spec:
   storageClassName: manual
   accessModes:

@@ -1,24 +1,23 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: sonarr-tcp
-  namespace: sonarr
+  name: plex-tcp
+  namespace: plex
   annotations:
-    metallb.universe.tf/address-pool: sonarr
-    metallb.universe.tf/allow-shared-ip: sonarr
+    metallb.universe.tf/address-pool: plex
+    metallb.universe.tf/allow-shared-ip: plex
   labels:
-    app: sonarr
+    app: plex
 spec:
   type: LoadBalancer
   selector:
-    app: sonarr
+    app: plex
   ports:
   - protocol: TCP
-    port: 8989 
-    targetPort: 8989 
-    name: 8989-sonarr
+    port: 8989
+    targetPort: 8989
+    name: 8989-plex
   - protocol: TCP
     port: 80
     targetPort: 8989
-    name: 80-8989-sonarr
-
+    name: 80-8989-plex
