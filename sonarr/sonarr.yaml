@@ -112,10 +112,10 @@ spec:
            resources:
               requests:
                  cpu: "2"
-                 memory: "1000Mi"
+                 memory: "2Gi"
               limits:
                  cpu: "4"
-                 memory: "2Gi"
+                 memory: "4Gi"
            ports:
              - containerPort: 8989
            volumeMounts:

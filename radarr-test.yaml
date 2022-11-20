@@ -1,0 +1,58 @@
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: radarr
+   namespace: radarr
+   labels:
+     app: radarr
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: radarr
+   template:
+     metadata:
+       labels:
+         app: radarr
+
+     spec:
+      containers:
+         - name: radarr
+           image: linuxserver/radarr
+           resources:
+              requests:
+                 cpu: "0.2"
+                 memory: "500Mi"
+              limits:
+                 cpu: "0.5"
+                 memory: "1Gi"
+           ports:
+             - containerPort: 7878
+           volumeMounts:
+             - mountPath: /config
+               name: radarr-config
+             - mountPath: /media
+               name: radarr-media
+      volumes:
+        - name: radarr-config
+          flexVolume:
+            driver: "fstab/cifs"
+            fsType: "cifs"
+            secretRef:
+              name: "cifs-secret"
+            options:
+              networkPath: "//192.168.1.60/bigdata/configs/radarr"
+              mountOptions: "uid=911,gid=911,dir_mode=0777,file_mode=0777"
+          #persistentVolumeClaim:
+          #   claimName: radarr-pv-config-claim
+        - name: radarr-media
+          flexVolume:
+            driver: "fstab/cifs"
+            fsType: "cifs"
+            secretRef:
+              name: "cifs-secret"
+            options:
+              networkPath: "//192.168.1.60/bigdata"
+              mountOptions: "uid=911,gid=911,dir_mode=0777,file_mode=0777"
+          #persistentVolumeClaim:
+          #   claimName: radarr-pv-media-claim

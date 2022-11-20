@@ -168,11 +168,11 @@ spec:
       containers:
       - env:
         - name: PLEX_CLAIM
-          value: claim-JhnVQnxHcz57k7M3DGVo
+          value: "claim-JhnVQnxHcz57k7M3DGVo"
         - name: PGID
-          value: 911
+          value: "911"
         - name: PUID
-          value: 911
+          value: "911"
         - name: VERSION
           value: latest
         - name: TZ

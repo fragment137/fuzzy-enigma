@@ -111,10 +111,9 @@ spec:
            image: linuxserver/radarr
            resources:
               requests:
-                 cpu: "0.2"
+                 cpu: "2"
                  memory: "500Mi"
               limits:
-                 cpu: "0.5"
                  memory: "1Gi"
            ports:
              - containerPort: 7878
