@@ -1,0 +1,9 @@
+---
+- hosts: apache
+  sudo: yes
+  tasks:
+    - name: Install required system packages.
+     apt: pkg={{ item }} state=installed update-cache=yes
+     with_items:
+       - gcc
+       - git-core
