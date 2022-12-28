@@ -1,0 +1,228 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: plex
+  labels:
+    app: plex
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: plex-pv-config-volume
+  namespace: plex
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /media/bigdata/storage/configs/plex/
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: plex-pv-config-claim
+  namespace: plex
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Gi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: plex-pv-media-volume
+  namespace: plex
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 7300Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    path: /media/bigdata/storage
+    server: 192.168.1.60
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: plex-pv-media-claim
+  namespace: plex
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 7300Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: plex-tcp
+  namespace: plex
+  annotations:
+    metallb.universe.tf/address-pool: plex
+    metallb.universe.tf/allow-shared-ip: plex
+  labels:
+    app: plex
+spec:
+  selector:
+    app: plex           # < reference to the deployment (connects the service with the deployment)
+  ports:
+  - port: 32400               # < port to open on the outside on the server
+    targetPort: 32400         # < targetport. port on the pod to passthrough
+    name: pms-web             # < reference name for the port in the deployment yaml
+    protocol: TCP
+  - port: 3005
+    targetPort: 3005
+    name: plex-companion
+  - port: 8324
+    name: plex-roku
+    targetPort: 8324
+    protocol: TCP
+  - port: 32469
+    targetPort: 32469
+    name: dlna-tcp
+    protocol: TCP
+  type: LoadBalancer
+  loadBalancerIP: 192.168.1.240
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: plex-udp              # < name of the service
+  namespace: plex       # < namespace where to place service
+  annotations:
+    metallb.universe.tf/allow-shared-ip: plex
+    metallb.universe.tf/address-pool: plex # < annotation name to combine the Service IP, make sure it's same name as in the service UDP yaml
+spec:
+  selector:
+    app: plex           # < reference to the deployment (connects the service with the deployment)
+  ports:
+  - port: 1900                # < port to open on the outside on the server
+    targetPort: 1900          # < targetport. port on the pod to passthrough
+    name: dlna-udp            # < reference name for the port in the deployment yaml
+    protocol: UDP
+  - port: 5353
+    targetPort: 5353
+    name: discovery-udp
+    protocol: UDP
+  - port: 32410
+    targetPort: 32410
+    name: gdm-32410
+    protocol: UDP
+  - port: 32412
+    targetPort: 32412
+    name: gdm-32412
+    protocol: UDP
+  - port: 32413
+    targetPort: 32413
+    name: gdm-32413
+    protocol: UDP
+  - port: 32414
+    targetPort: 32414
+    name: gdm-32414
+    protocol: UDP
+  type: LoadBalancer
+  loadBalancerIP: 192.168.1.240
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: plex
+  name: plex
+  namespace: plex
+spec:
+  replicas: 1
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: plex
+  strategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: plex
+    spec:
+      volumes:
+        - name: plex-config
+          persistentVolumeClaim:
+            claimName: plex-pv-config-claim
+        - name: plex-media
+          persistentVolumeClaim:
+            claimName: plex-pv-media-claim
+      containers:
+      - env:
+        - name: PLEX_CLAIM
+          value: "claim-JhnVQnxHcz57k7M3DGVo"
+        - name: PGID
+          value: "911"
+        - name: PUID
+          value: "911"
+        - name: VERSION
+          value: latest
+        - name: TZ
+          value: America\Toronto
+        image: linuxserver/plex
+        imagePullPolicy: IfNotPresent
+        name: plex
+        ports:
+        - containerPort: 32400     # < required network portnumber. See https://hub.docker.com/r/linuxserver/plex
+          name: pms-web            # < reference name from the port in the service yaml
+          protocol: TCP
+        - containerPort: 32469
+          name: dlna-tcp
+          protocol: TCP
+        - containerPort: 1900
+          name: dlna-udp
+          protocol: UDP
+        - containerPort: 3005
+          name: plex-companion
+          protocol: TCP
+        - containerPort: 5353
+          name: discovery-udp
+          protocol: UDP
+        - containerPort: 8324
+          name: plex-roku
+          protocol: TCP
+        - containerPort: 32410
+          name: gdm-32410
+          protocol: UDP
+        - containerPort: 32412
+          name: gdm-32412
+          protocol: UDP
+        - containerPort: 32413
+          name: gdm-32413
+          protocol: UDP
+        - containerPort: 32414
+          name: gdm-32414
+          protocol: UDP
+        resources:
+          requests:
+            cpu: "1"
+            memory: "1Gi"
+          limits:
+            cpu: "2"
+            memory: "2Gi"
+        stdin: true
+        tty: true
+        volumeMounts:
+        - mountPath: /config
+          name: plex-config
+        - mountPath: /storage
+          name: plex-media
+      restartPolicy: Always

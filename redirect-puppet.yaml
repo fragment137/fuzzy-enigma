@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: puppet-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: puppet.control.local
+    http:
+      paths:
+      - backend:
+          service:
+            name: puppet
+            port:
+             number: 8140
+        path: "/"
+        pathType: Prefix

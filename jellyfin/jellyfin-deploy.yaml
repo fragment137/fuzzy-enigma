@@ -1,0 +1,54 @@
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: jellyfin
+   namespace: jellyfin
+   labels:
+     app: jellyfin
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: jellyfin
+   template:
+     metadata:
+       labels:
+         app: jellyfin
+
+     spec:
+      containers:
+         - name: jellyfin
+           image: ghcr.io/linuxserver/jellyfin
+           resources:
+              requests:
+                 cpu: "2"
+                 memory: "1000Mi"
+              limits:
+                 cpu: "4"
+                 memory: "2Gi"
+           ports:
+             - containerPort: 8096
+               name: http-tcp
+               protocl: TCP
+             - containerPort: 8920
+               name: https-tcp
+               protocol: TCP
+             - containerPort: 1900
+               name: dlna-udp
+               protocol: UDP
+             - containerPort: 7359
+               name: discovery-udp
+               protocol: UDP
+           volumeMounts:
+             - mountPath: /config
+               name: jellyfin-config
+             - mountPath: /storage
+               name: jellyfin-media
+      volumes:
+        - name: jellyfin-config
+          persistentVolumeClaim:
+             claimName: jellyfin-pv-config-claim
+        - name: jellyfin-media
+          persistentVolumeClaim:
+             claimName: jellyfin-pv-media-claim
