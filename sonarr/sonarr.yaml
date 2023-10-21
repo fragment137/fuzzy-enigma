@@ -44,7 +44,7 @@ metadata:
 spec:
   storageClassName: manual
   capacity:
-    storage: 18Ti
+    storage: 18000Gi
   accessModes:
     - ReadWriteMany
   hostPath:
@@ -61,7 +61,7 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 18Ti
+      storage: 18000Gi
 ---
 apiVersion: v1
 kind: Service
