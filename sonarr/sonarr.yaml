@@ -19,7 +19,7 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: /media/bigdata/storage/configs/sonarr/
+    path: /config
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -32,7 +32,7 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 100Gi
+      storage: 150Gi
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -44,12 +44,11 @@ metadata:
 spec:
   storageClassName: manual
   capacity:
-    storage: 7300Gi
+    storage: 18Ti
   accessModes:
     - ReadWriteMany
-  nfs:
-    path: /media/bigdata/storage
-    server: 192.168.1.60
+  hostPath:
+    path: /media
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -62,7 +61,7 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 7300Gi
+      storage: 150Gi
 ---
 apiVersion: v1
 kind: Service
@@ -113,18 +112,15 @@ spec:
          - name: sonarr
            image: linuxserver/sonarr
            resources:
-              requests:
-                 cpu: "2"
-                 memory: "2Gi"
               limits:
-                 cpu: "4"
+                 cpu: "2"
                  memory: "4Gi"
            ports:
              - containerPort: 8989
            volumeMounts:
              - mountPath: /config
                name: sonarr-config
-             - mountPath: /storage
+             - mountPath: /media
                name: sonarr-media
       volumes:
         - name: sonarr-config
