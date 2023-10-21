@@ -113,11 +113,11 @@ spec:
                  memory: "4Gi"
            ports:
              - containerPort: 8989
-          env:
-          - name: PUID
-            value: "568"
-          - name: PGID
-            value: "568"
+           env:
+             - name: PUID
+               value: "568"
+             - name: PGID
+               value: "568"
            volumeMounts:
              - mountPath: /config
                name: sonarr-config
