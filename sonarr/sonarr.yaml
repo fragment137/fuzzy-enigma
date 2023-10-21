@@ -95,9 +95,6 @@ spec:
    labels:
      app: sonarr
  spec:
-   securityContext:
-     runasUser: 568
-     runasGroup: 568
    replicas: 1
    selector:
       matchLabels:
@@ -106,7 +103,6 @@ spec:
      metadata:
        labels:
          app: sonarr
-
      spec:
       containers:
          - name: sonarr
@@ -117,6 +113,11 @@ spec:
                  memory: "4Gi"
            ports:
              - containerPort: 8989
+          env:
+          - name: PUID
+            value: "568"
+          - name: PGID
+            value: "568"
            volumeMounts:
              - mountPath: /config
                name: sonarr-config
