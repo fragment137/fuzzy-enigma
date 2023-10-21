@@ -96,6 +96,9 @@ spec:
    labels:
      app: sonarr
  spec:
+   securityContext:
+     runasUser: 568
+     runasGroup: 568
    replicas: 1
    selector:
       matchLabels:
