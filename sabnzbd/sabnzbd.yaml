@@ -15,12 +15,11 @@ metadata:
 spec:
   storageClassName: manual
   capacity:
-    storage: 100Gi
+    storage: 150Gi
   accessModes:
     - ReadWriteMany
-  nfs:
-    path: /media/bigdata/storage/configs/sabnzbd/
-    server: 192.168.1.60
+  hostPath:
+    path: /config
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -33,7 +32,7 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 100Gi
+      storage: 150Gi
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -45,12 +44,11 @@ metadata:
 spec:
   storageClassName: manual
   capacity:
-    storage: 7300Gi
+    storage: 18000Gi
   accessModes:
     - ReadWriteMany
-  nfs:
-    path: /media/bigdata/storage
-    server: 192.168.1.60
+  hostPath:
+    path: /media
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -63,7 +61,7 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 7300Gi
+      storage: 18000Gi
 ---
 apiVersion: v1
 kind: Service
@@ -87,7 +85,7 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 8080
-    name: 80to8080-sabnzbd
+    name: 80-8080-sabnzbd
 ---
  apiVersion: apps/v1
  kind: Deployment
@@ -105,22 +103,25 @@ spec:
      metadata:
        labels:
          app: sabnzbd
-
      spec:
       containers:
          - name: sabnzbd
            image: linuxserver/sabnzbd
            resources:
-             limits:
-                cpu: "1"
-             requests:
-                cpu: "0.5"
+              limits:
+                 cpu: "2"
+                 memory: "2Gi"
            ports:
-             - containerPort: 6789
+             - containerPort: 8080
+           env:
+             - name: PUID
+               value: "568"
+             - name: PGID
+               value: "568"
            volumeMounts:
              - mountPath: /config
                name: sabnzbd-config
-             - mountPath: /storage
+             - mountPath: /media
                name: sabnzbd-media
       volumes:
         - name: sabnzbd-config

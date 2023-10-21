@@ -15,11 +15,11 @@ metadata:
 spec:
   storageClassName: manual
   capacity:
-    storage: 100Gi
+    storage: 150Gi
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: /media/bigdata/storage/configs/radarr/
+    path: /config
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -32,7 +32,7 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 100Gi
+      storage: 150Gi
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -44,12 +44,11 @@ metadata:
 spec:
   storageClassName: manual
   capacity:
-    storage: 7300Gi
+    storage: 18000Gi
   accessModes:
     - ReadWriteMany
-  nfs:
-    path: /media/bigdata/storage
-    server: 192.168.1.60
+  hostPath:
+    path: /media
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -62,7 +61,7 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 7300Gi
+      storage: 18000Gi
 ---
 apiVersion: v1
 kind: Service
@@ -86,7 +85,7 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 7878
-    name: 80to7878-radarr
+    name: 80-7878-radarr
 ---
  apiVersion: apps/v1
  kind: Deployment
@@ -104,19 +103,21 @@ spec:
      metadata:
        labels:
          app: radarr
-
      spec:
       containers:
          - name: radarr
            image: linuxserver/radarr
            resources:
-              requests:
-                 cpu: "2"
-                 memory: "500Mi"
               limits:
-                 memory: "1Gi"
+                 cpu: "2"
+                 memory: "2Gi"
            ports:
              - containerPort: 7878
+           env:
+             - name: PUID
+               value: "568"
+             - name: PGID
+               value: "568"
            volumeMounts:
              - mountPath: /config
                name: radarr-config
