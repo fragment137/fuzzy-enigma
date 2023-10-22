@@ -19,7 +19,7 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: /config
+    path: /config/sonarr
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -104,6 +104,15 @@ spec:
        labels:
          app: sonarr
      spec:
+       affinity:
+         nodeAffinity:
+           requiredDuringSchedulingIgnoredDuringExecution:
+             nodeSelectorTerms:
+             - matchFields:
+               - key: metadata.name
+                 operator: In
+                 values:
+                 - "mo-k8s04"
       containers:
          - name: sonarr
            image: linuxserver/sonarr
