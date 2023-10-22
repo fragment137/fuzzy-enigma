@@ -19,7 +19,7 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: /config
+    path: /config/radarr
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
