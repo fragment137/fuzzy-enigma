@@ -104,7 +104,7 @@ spec:
        labels:
          app: sonarr
      spec:
-       affinity:
+        affinity:
          nodeAffinity:
            requiredDuringSchedulingIgnoredDuringExecution:
              nodeSelectorTerms:
