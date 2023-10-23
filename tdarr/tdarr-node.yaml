@@ -26,7 +26,7 @@ spec:
         - name: PGID
           value: "568"
         - name: serverIP
-          value: 192.168.1.247
+          value: 10.106.68.150
         - name: serverPort
           value: "8266"
         image: ghcr.io/haveagitgat/tdarr_node:latest
