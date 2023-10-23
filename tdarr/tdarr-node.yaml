@@ -20,7 +20,7 @@ spec:
       containers:
       - env:
         - name: TZ
-          value: America/Chicago
+          value: America/Toronto
         - name: PUID
           value: "568"
         - name: PGID
@@ -29,7 +29,7 @@ spec:
           value: tdarr-server
         - name: serverPort
           value: "8266"
-        image: ghcr.io/haveagitgat/tdarr_node
+        image: ghcr.io/haveagitgat/tdarr_node:latest
         imagePullPolicy: Always
         name: tdarr-node
         ports:
