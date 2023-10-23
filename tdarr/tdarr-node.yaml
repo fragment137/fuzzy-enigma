@@ -22,9 +22,9 @@ spec:
         - name: TZ
           value: America/Chicago
         - name: PUID
-          value: "1001"
+          value: "568"
         - name: PGID
-          value: "1001"
+          value: "568"
         - name: serverIP
           value: tdarr-server
         - name: serverPort

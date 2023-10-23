@@ -77,6 +77,17 @@ spec:
 status: {}
 ---
 apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  creationTimestamp: null
+  name: tdarr
+  namespace: metallb-system
+spec:
+  addresses:
+  - 192.168.1.247-192.168.1.247
+status: {}
+---
+apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
   creationTimestamp: null
@@ -140,5 +151,16 @@ metadata:
 spec:
   ipAddressPools:
   - ingress
+status: {}
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  creationTimestamp: null
+  name: l2advertisement6
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - tdarr
 status: {}
 ---
