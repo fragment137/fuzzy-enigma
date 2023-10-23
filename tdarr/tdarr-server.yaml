@@ -41,7 +41,7 @@ spec:
           value: "false"
         - name: nodeID
           value: Controller1
-        image: ghcr.io/haveagitgat/tdarr
+        image: ghcr.io/haveagitgat/tdarr:2.14.01
         imagePullPolicy: Always
         name: tdarr
         ports:
