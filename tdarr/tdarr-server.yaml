@@ -22,63 +22,64 @@ spec:
       creationTimestamp: null
       labels:
         app: tdarr
-  containers:
-    - env:
-      - name: TZ
-        value: America/Toronto
-      - name: PUID
-        value: "568"
-      - name: PGID
-        value: "568"
-      - name: ServerIP
-        value: 0.0.0.0
-      - name: ServerPort
-        value: "8266"
-      - name: webUIPort
-        value: "8265"
-      - name: internalNode
-        value: "false"
-      - name: nodeID
-        value: Controller1
-      image: ghcr.io/haveagitgat/tdarr
-      imagePullPolicy: Always
-      name: tdarr
-      ports:
-      - containerPort: 8266
-        name: 8266tcp
-        protocol: TCP
-      - containerPort: 8265
-        name: 8265tcp
-        protocol: TCP
-      resources: {}
-      terminationMessagePath: /dev/termination-log
-      terminationMessagePolicy: File
-      volumeMounts:
-      - mountPath: /app/configs
-        name: tdarr-config
-      - mountPath: /media-library
-        name: media-library
-      - mountPath: /app/server
-        name: tdarr-server
-      - mountPath: /tcache
-        name: tcache
-    dnsPolicy: ClusterFirst
-    restartPolicy: Always
-    schedulerName: default-scheduler
-    volumes:
-    - name: media-library
-      nfs:
-        path: /mnt/vol1/media
-        server: 192.168.1.21
-    - name: tcache
-      nfs:
-        path: /mnt/apps/tcache
-        server: 192.168.1.21
-    - name: tdarr-config
-      nfs:
-        path: /mnt/apps/vmdisk/tdarr/configs
-        server: 192.168.1.21
-    - name: tdarr-server
-      nfs:
-        path: /mnt/apps/vmdisk/tdarr/server
-        server: 192.168.1.21
+    spec:
+      containers:
+      - env:
+        - name: TZ
+          value: America/Toronto
+        - name: PUID
+          value: "568"
+        - name: PGID
+          value: "568"
+        - name: ServerIP
+          value: 0.0.0.0
+        - name: ServerPort
+          value: "8266"
+        - name: webUIPort
+          value: "8265"
+        - name: internalNode
+          value: "false"
+        - name: nodeID
+          value: Controller1
+        image: ghcr.io/haveagitgat/tdarr
+        imagePullPolicy: Always
+        name: tdarr
+        ports:
+        - containerPort: 8266
+          name: 8266tcp
+          protocol: TCP
+        - containerPort: 8265
+          name: 8265tcp
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /app/configs
+          name: tdarr-config
+        - mountPath: /media-library
+          name: media-library
+        - mountPath: /app/server
+          name: tdarr-server
+        - mountPath: /tcache
+          name: tcache
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      volumes:
+      - name: media-library
+        nfs:
+          path: /mnt/vol1/media
+          server: 192.168.1.21
+      - name: tcache
+        nfs:
+          path: /mnt/apps/tcache
+          server: 192.168.1.21
+      - name: tdarr-config
+        nfs:
+          path: /mnt/apps/vmdisk/tdarr/configs
+          server: 192.168.1.21
+      - name: tdarr-server
+        nfs:
+          path: /mnt/apps/vmdisk/tdarr/server
+          server: 192.168.1.21
