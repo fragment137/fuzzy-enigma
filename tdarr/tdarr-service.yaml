@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tdarrweb-tcp
+  namespace: tdarr
+  annotations:
+    metallb.universe.tf/address-pool: tdarr
+    metallb.universe.tf/allow-shared-ip: tdarr
+  labels:
+    app: tdarr
+spec:
+  type: LoadBalancer
+  selector:
+    app: tdarr
+  ports:
+  - protocol: TCP
+    port: 8265
+    targetPort: 8265 
+    name: 8265-tdarr
+  - protocol: TCP
+    port: 80
+    targetPort: 8265
+    name: 80-8265-tdarr
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tdarrserver-tcp
+  namespace: tdarr
+  labels:
+    app: tdarr
+spec:
+  selector:
+    app: tdarr
+  ports:
+    - protocol: TCP
+      port: 8266
+      targetPort: 8266
+  type: ClusterIP
