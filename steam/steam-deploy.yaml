@@ -27,6 +27,10 @@ spec:
           value: America/Toronto
         - name: STEAM_APP_ID
           value: '380870'
+        - name: PUID
+          value: "568"
+        - name: PGID
+          value: "568"
         ports:
         - containerPort: 27015
         - containerPort: 27015
