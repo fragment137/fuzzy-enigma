@@ -2,22 +2,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: valheim
+  name: zomboid
   namespace: steam
   labels:
-    app: valheim
+    app: zomboid
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: valheim
+      app: zomboid
   template:
     metadata:
       labels:
-        app: valheim
+        app: zomboid
     spec:
       containers:
-      - name: valheim
+      - name: zomboid
         image: rpufky/steam:stable
         command: ["/bin/sleep", "3650d"]
         env:
@@ -26,7 +26,7 @@ spec:
         - name: TZ
           value: America/Toronto
         - name: STEAM_APP_ID
-          value: '896660'
+          value: '380870'
         ports:
         - containerPort: 27015
         - containerPort: 27015
@@ -37,11 +37,11 @@ spec:
         - containerPort: 2457
         resources:
           requests:
-            cpu: '0.2'
+            cpu: '2000m'
             memory: 2Gi
           limits:
-            cpu: '1.0'
-            memory: 4Gi
+            cpu: '4000m'
+            memory: 2Gi
         volumeMounts:
         - mountPath: "/data"
           name: steam-config
