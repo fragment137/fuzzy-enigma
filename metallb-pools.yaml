@@ -88,6 +88,17 @@ spec:
 status: {}
 ---
 apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  creationTimestamp: null
+  name: steam
+  namespace: metallb-system
+spec:
+  addresses:
+  - 192.168.1.248-192.168.1.248
+status: {}
+---
+apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
   creationTimestamp: null
@@ -162,5 +173,16 @@ metadata:
 spec:
   ipAddressPools:
   - tdarr
+status: {}
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  creationTimestamp: null
+  name: l2advertisement6
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - steam
 status: {}
 ---
