@@ -19,6 +19,7 @@ spec:
       containers:
       - name: zomboid
         image: rpufky/steam:stable
+        command: ["/bin/sleep","3650d"]
         env:
         - name: PLATFORM
           value: linux
