@@ -51,14 +51,14 @@ spec:
             cpu: '4000m'
             memory: 2Gi
         volumeMounts:
-        - mountPath: "/data"
-          name: steam-config
+#        - mountPath: "/data"
+#          name: steam-config
         - mountPath: "/steam"
           name: zomboid
       volumes:
-      - name: steam-config
-        persistentVolumeClaim:
-          claimName: steam-pv-config-claim
+#      - name: steam-config
+#        persistentVolumeClaim:
+#          claimName: steam-pv-config-claim
       - name: zomboid
         persistentVolumeClaim:
           claimName: steam-pv-zomboid-claim
