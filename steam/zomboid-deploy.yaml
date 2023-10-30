@@ -1,0 +1,55 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zomboid
+  namespace: steam
+  labels:
+    app: zomboid
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zomboid
+  template:
+    metadata:
+      labels:
+        app: zomboid
+    spec:
+      containers:
+      - name: zomboid
+        image: rpufky/steam:stable
+        command: ["/bin/bash","-c","sh /data/start-server.sh"]
+        env:
+        - name: PLATFORM
+          value: linux
+        - name: TZ
+          value: America/Toronto
+        - name: STEAM_APP_ID
+          value: '380870'
+        - name: PUID
+          value: "568"
+        - name: PGID
+          value: "568"
+        ports:
+        - containerPort: 27015
+        - containerPort: 27015
+          protocol: UDP
+        - containerPort: 27016
+          protocol: UDP
+        - containerPort: 2456
+        - containerPort: 2457
+        resources:
+          requests:
+            cpu: '2000m'
+            memory: 2Gi
+          limits:
+            cpu: '4000m'
+            memory: 2Gi
+        volumeMounts:
+        - mountPath: "/data"
+          name: steam-config
+      volumes:
+      - name: steam-config
+        persistentVolumeClaim:
+          claimName: steam-pv-config-claim
