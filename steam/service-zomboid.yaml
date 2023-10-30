@@ -1,0 +1,29 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zomboid-tcp
+  namespace: steam
+  annotations:
+    metallb.universe.tf/address-pool: steam
+    metallb.universe.tf/allow-shared-ip: steam
+  labels:
+    app: zomboid
+spec:
+  type: LoadBalancer
+  selector:
+    app: zomboid
+  ports:
+  - protocol: TCP
+    port: 16261
+    targetPort: 16261
+    name: valehim-p1
+  - protocol: TCP
+    port: 16262
+    targetPort: 16262
+    name: zomboid-p2
+  - protocol: TCP
+    port: 27015
+    name: zomboid-steam
+...
+
