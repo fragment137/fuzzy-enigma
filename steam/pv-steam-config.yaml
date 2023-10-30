@@ -16,6 +16,23 @@ spec:
     server: 192.168.1.21
 ---
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: steam-pv-zomboid-volume
+  namespace: steam
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 250Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    path: /mnt/apps/vmdisk/config/steam/zomboid
+    server: 192.168.1.21
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: steam-pv-config-claim
@@ -27,3 +44,17 @@ spec:
   resources:
     requests:
       storage: 100Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: steam-pv-zomboid-claim
+  namespace: steam
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 250Gi
+---
