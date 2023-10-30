@@ -19,7 +19,7 @@ spec:
       containers:
       - name: zomboid
         image: rpufky/steam:stable
-        command: ["/bin/sleep", "3650d"]
+        command: ["/bin/bash","-c","sh /data/start-server.sh"]
         env:
         - name: PLATFORM
           value: linux
