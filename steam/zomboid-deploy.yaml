@@ -19,18 +19,21 @@ spec:
       containers:
       - name: zomboid
         image: rpufky/steam:stable
-        command: ["/bin/bash","-c","sh /data/start-server.sh"]
         env:
         - name: PLATFORM
           value: linux
         - name: TZ
           value: America/Toronto
+        - name: UPDATE_STEAM
+          value: "1"
+        - name: UPDATE_SERVER
+          value: "1"
         - name: STEAM_APP_ID
           value: '380870'
         - name: PUID
-          value: "568"
+          value: "1000"
         - name: PGID
-          value: "568"
+          value: "1000"
         ports:
         - containerPort: 27015
         - containerPort: 27015
