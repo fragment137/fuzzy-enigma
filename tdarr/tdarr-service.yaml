@@ -24,6 +24,7 @@ spec:
   - protocol: TCP
     port: 8266
     targetPort: 8266
+    name: 8266-tdarr-ext
 ---
 apiVersion: v1
 kind: Service
