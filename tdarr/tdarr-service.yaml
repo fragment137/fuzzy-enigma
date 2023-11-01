@@ -27,6 +27,9 @@ kind: Service
 metadata:
   name: tdarrserver-tcp
   namespace: tdarr
+  annotations:
+    metallb.universe.tf/address-pool: tdarr
+    metallb.universe.tf/allow-shared-ip: tdarr
   labels:
     app: tdarr
 spec:
