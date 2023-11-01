@@ -28,8 +28,8 @@ metadata:
   name: tdarrserver-tcp
   namespace: tdarr
   annotations:
-    metallb.universe.tf/address-pool: tdarr
-    metallb.universe.tf/allow-shared-ip: tdarr
+    metallb.universe.tf/address-pool: tdarr-srv
+    metallb.universe.tf/allow-shared-ip: tdarr-srv
   labels:
     app: tdarr
 spec:

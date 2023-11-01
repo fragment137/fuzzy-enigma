@@ -73,7 +73,18 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-  - 192.168.1.247-192.168.1.248
+  - 192.168.1.247-192.168.1.247
+status: {}
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  creationTimestamp: null
+  name: tdarr-srv
+  namespace: metallb-system
+spec:
+  addresses:
+  - 192.168.1.248-192.168.1.248
 status: {}
 ---
 apiVersion: metallb.io/v1beta1
@@ -151,6 +162,17 @@ metadata:
 spec:
   ipAddressPools:
   - tdarr
+status: {}
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  creationTimestamp: null
+  name: l2advertisement6
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - tdarr-srv
 status: {}
 ---
 apiVersion: metallb.io/v1beta1
