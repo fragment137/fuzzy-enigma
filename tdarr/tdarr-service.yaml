@@ -21,22 +21,7 @@ spec:
     port: 80
     targetPort: 8265
     name: 80-8265-tdarr
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: tdarrserver-tcp
-  namespace: tdarr
-  annotations:
-    metallb.universe.tf/address-pool: tdarr-srv
-    metallb.universe.tf/allow-shared-ip: tdarr-srv
-  labels:
-    app: tdarr
-spec:
-  selector:
-    app: tdarr
-  ports:
-    - protocol: TCP
-      port: 8266
-      targetPort: 8266
-  type: LoadBalancer
+  - protocol: TCP
+    port: 8266
+    targetPort: 8266
+    name: 8266-tdarr-server
