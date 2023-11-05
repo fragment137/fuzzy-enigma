@@ -31,7 +31,7 @@ def redownload_movie(movie_folder):
     if response.status_code == 201:
         print(f"Redownloading '{movie_title}' in Radarr.")
     else:
-        print(f"Failed to redownload '{movie_title}' in Radarr.")
+        print(f"Failed to redownload '{movie_title}' in Radarr. Response code: {response.status_code}")
 
 # Read the CSV file and process each movie
 with open(CSV_FILENAME, newline='') as csv_file:
