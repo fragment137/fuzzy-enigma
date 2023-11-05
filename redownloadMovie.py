@@ -3,7 +3,6 @@ import csv
 import requests
 
 # Define Radarr API settings
-curl -H "X-Api-Key: a74d42e9c38944c7bb6098f1f79caa5d" http://192.168.1.114:7878/api/profile
 RADARR_API_KEY = 'a74d42e9c38944c7bb6098f1f79caa5d'
 RADARR_URL = 'http://192.168.1.114:7878'  # Adjust to your Radarr URL
 RADARR_PROFILE_ID = 7  # Replace with the desired profile ID
