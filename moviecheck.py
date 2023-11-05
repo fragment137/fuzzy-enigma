@@ -3,7 +3,7 @@ import csv
 import subprocess
 
 # List of file extensions to be ignored
-IGNORED_EXTENSIONS = {'.dat','.jpg', '.jpeg', '.png', '.srt', '.sub', '.idx', '.nfo', '.txt', '.db', '.ico', '.sample', '.tbn', '.xml', '.srr'}
+IGNORED_EXTENSIONS = {'.dat','.jpg', '.jpeg', '.png', '.srt', '.sub', '.idx', '.nfo', '.txt', '.db', '.ico', '.sample', '.tbn', '.xml', '.srr','.log''.md5'}
 IGNORED_FILES = {'.DS_Store','._.DS_Store'}
 
 # Define the CSV file and headings
@@ -48,7 +48,7 @@ with open(CSV_FILENAME, 'w', newline='') as csv_file:
         size_criteria_met = movie_properties['Size'] > 5 * 1024 * 1024 * 1024  # 5GB
 
         # Criteria 2: Codec
-        codec_criteria_met = movie_properties['Codec'] == 'H.265'  # Desired codec
+        codec_criteria_met = movie_properties['Codec'] == 'HEVC'  # Desired codec
 
         # Criteria 3: File Extension
         extension_criteria_met = movie_path.lower().endswith('.mkv')
