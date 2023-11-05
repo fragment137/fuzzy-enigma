@@ -39,7 +39,7 @@ with open(CSV_FILENAME, newline='') as csv_file:
     for row in csv_reader:
         movie_folder = os.path.join('/media/Movies', row['Folder Name'])
         additional_files = row['Additional Movie Files'].split(', ')
-
         # Check if the movie needs to be redownloaded
-        if (row['File Size'] > 5 * 1024 * 1024 * 1024) or (row['Movie Codec'] != 'HEVC'):
+        file_size = int(row['File Size'])
+        if (file_size > 5 * 1024 * 1024 * 1024) or (row['Movie Codec'] != 'HEVC'):
             redownload_movie(movie_folder)
