@@ -1,5 +1,6 @@
 import os
 import csv
+import subprocess
 
 # List of file extensions to be ignored
 IGNORED_EXTENSIONS = {'.dat','.jpg', '.jpeg', '.png', '.srt', '.sub', '.idx', '.nfo', '.txt', '.db', '.ico', '.sample', '.tbn', '.xml', '.srr'}
