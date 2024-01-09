@@ -23,7 +23,7 @@ metadata:
   name: steam-pvc
   namespace: steam
 spec:
-  storageClassName: manual
+  storageClassName: slow
   accessModes:
     - ReadWriteMany
   resources:
