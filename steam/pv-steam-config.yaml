@@ -15,7 +15,7 @@ spec:
     fsType: ext4
     readOnly: false
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: slow
+  storageClassName: manual
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -23,7 +23,7 @@ metadata:
   name: steam-pvc
   namespace: steam
 spec:
-  storageClassName: slow
+  storageClassName: manual
   accessModes:
     - ReadWriteMany
   resources:
