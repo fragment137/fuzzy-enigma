@@ -1,0 +1,58 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: valheim
+  namespace: steam
+  labels:
+    app: valheim
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: valheim
+  template:
+    metadata:
+      labels:
+        app: valheim
+    spec:
+      containers:
+      - name: valheim
+        image: lloesche/valheim-server
+        env:
+        - name: SERVER_NAME
+          value: 'The Clean Scrubs'
+        - name: SERVER_PORT
+          value: "2456"
+        - name: WORLD_NAME
+          value: 'Dedicated'
+        - name: SERVER_PASS
+          value: '!poop123'
+        - name: SERVER_PUBLIC
+          value: 'true'
+        - name: PUID
+          value: "568"
+        - name: PGID
+          value: "568"
+        ports:
+        - containerPort: 27015
+        - containerPort: 27015
+          protocol: UDP
+        - containerPort: 27016
+          protocol: UDP
+        - containerPort: 2456
+        - containerPort: 2457
+        resources:
+          requests:
+            cpu: '2000m'
+            memory: 2Gi
+          limits:
+            cpu: '4000m'
+            memory: 2Gi
+        volumeMounts:
+        - mountPath: "/valheim/data"
+          name: steam
+      volumes:
+      - name: steam
+        persistentVolumeClaim:
+          claimName: steam-pvc

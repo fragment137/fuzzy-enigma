@@ -14,33 +14,11 @@ apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
   creationTimestamp: null
-  name: sabnzbd
+  name: valheim
   namespace: metallb-system
-spec:
-  addresses:
-  - 192.168.1.241-192.168.1.241
-status: {}
----
-apiVersion: metallb.io/v1beta1
-kind: IPAddressPool
-metadata:
-  creationTimestamp: null
-  name: radarr
-  namespace: metallb-system
-spec:
-  addresses:
-  - 192.168.1.242-192.168.1.242
-status: {}
----
-apiVersion: metallb.io/v1beta1
-kind: IPAddressPool
-metadata:
-  creationTimestamp: null
-  name: sonarr
-  namespace: metallb-system
-spec:
-  addresses:
-  - 192.168.1.243-192.168.1.243
+  spec:
+    addresses:
+    - 192.168.1.241-192.168.1.241
 status: {}
 ---
 apiVersion: metallb.io/v1beta1
@@ -106,7 +84,7 @@ metadata:
   namespace: metallb-system
 spec:
   ipAddressPools:
-  - sabnzbd
+  - valheim
 status: {}
 ---
 apiVersion: metallb.io/v1beta1
