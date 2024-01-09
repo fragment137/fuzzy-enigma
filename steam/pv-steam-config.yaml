@@ -9,6 +9,7 @@ spec:
   accessModes:
     - ReadWriteMany
   iscsi:
+    chapAuthSession: false
     targetPortal: 192.168.1.21:3260
     iqn: iqn.2023-10.morrnet.truenas:steam-isci
     lun: 1
