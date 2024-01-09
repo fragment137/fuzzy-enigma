@@ -10,7 +10,7 @@ spec:
     - ReadWriteMany
   iscsi:
     targetPortal: 192.168.1.21:3260
-    iqn: iqn.2023-10.morrnet.truenas
+    iqn: iqn.2023-10.morrnet.truenas:steam-isci
     lun: 1
     fsType: ext4
     readOnly: false
