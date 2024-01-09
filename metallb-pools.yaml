@@ -16,7 +16,7 @@ metadata:
   creationTimestamp: null
   name: valheim
   namespace: metallb-system
-  spec:
+spec:
     addresses:
     - 192.168.1.241-192.168.1.241
 status: {}
