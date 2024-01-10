@@ -25,7 +25,7 @@ spec:
         - name: SERVER_PORT
           value: "2456"
         - name: WORLD_NAME
-          value: 'Dedicated'
+          value: 'defaultworld'
         - name: SERVER_PASS
           value: '!poop123'
         - name: SERVER_PUBLIC
