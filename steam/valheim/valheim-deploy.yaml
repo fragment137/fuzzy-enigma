@@ -48,11 +48,11 @@ spec:
             memory: 2Gi
           limits:
             cpu: '4000m'
-            memory: 2Gi
+            memory: 8Gi
         volumeMounts:
         - mountPath: "/config"
           name: steam
       volumes:
       - name: steam
         persistentVolumeClaim:
-          claimName: steam-pvc
+          claimName: valheim-pvc
