@@ -55,8 +55,9 @@ spec:
             memory: 8Gi
         volumeMounts:
         - mountPath: "/config"
-          name: steam
+          name: valheim-server
         - mountPath: "/opt/valheim"
+          name: steam
       volumes:
       - name: steam
         persistentVolumeClaim:
