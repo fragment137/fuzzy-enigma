@@ -20,6 +20,8 @@ spec:
       - name: valheim
         image: lloesche/valheim-server
         env:
+        - name: TZ
+          value: 'America/Toronto'
         - name: SERVER_NAME
           value: 'The Clean Scrubs'
         - name: SERVER_PORT
@@ -29,6 +31,8 @@ spec:
         - name: SERVER_PASS
           value: '!poop123'
         - name: SERVER_PUBLIC
+          value: 'false'
+        - name: UPDATE_IF_IDLE
           value: 'true'
         - name: PUID
           value: "568"
@@ -52,7 +56,11 @@ spec:
         volumeMounts:
         - mountPath: "/config"
           name: steam
+        - mountPath: "/opt/valheim"
       volumes:
       - name: steam
+        persistentVolumeClaim:
+          claimName: valheim-steam-pvc
+      - name: valheim-server
         persistentVolumeClaim:
           claimName: valheim-pvc
