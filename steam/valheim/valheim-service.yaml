@@ -28,3 +28,4 @@ spec:
   - protocol: UDP
     port: 2457
     targetPort: 2457
+    name: valheim-query
