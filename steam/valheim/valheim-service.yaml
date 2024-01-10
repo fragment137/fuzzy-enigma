@@ -21,7 +21,10 @@ spec:
     port: 27016
     targetPort: 27016
     name: valheim-announce
-  - protocol: TCP
+  - protocol: UDP
     port: 2456
     targetPort: 2456
     name: valheim-server
+  - protocol: UDP
+    port: 2457
+    targetPort: 2457
