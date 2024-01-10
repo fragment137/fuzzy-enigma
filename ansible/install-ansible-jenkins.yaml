@@ -1,0 +1,43 @@
+---
+- name: Install Ansible and Jenkins
+  hosts: k8s_nodes
+  become: true  # Run tasks as sudo
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install software-properties-common (required for add-apt-repository)
+      apt:
+        name: software-properties-common
+        state: present
+
+    - name: Add Ansible PPA
+      apt_repository:
+        repo: ppa:ansible/ansible
+        state: present
+
+    - name: Install Ansible
+      apt:
+        name: ansible
+        state: present
+
+    - name: Add Jenkins GPG key
+      apt_key:
+        url: https://pkg.jenkins.io/debian/jenkins.io.key
+        state: present
+
+    - name: Add Jenkins APT repository
+      apt_repository:
+        repo: deb https://pkg.jenkins.io/debian-stable binary/
+        state: present
+
+    - name: Install Jenkins
+      apt:
+        name: jenkins
+        state: present
+
+    - name: Start Jenkins service
+      service:
+        name: jenkins
+        state: started
