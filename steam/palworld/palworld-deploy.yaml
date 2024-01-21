@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: palworld
+  namespace: steam
+  labels:
+    app: palworld
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: palworld
+  template:
+    metadata:
+      labels:
+        app: palworld
+    spec:
+      containers:
+        - name: palworld
+          image: jammsen/docker-palworld-dedicated-server:latest
+          env:
+            - name: ALWAYS_UPDATE_ON_START
+              value: "true"
+            - name: COMMUNITY_SERVER
+              value: "true"
+            - name: MULTITHREAD_ENABLED
+              value: "true"
+            - name: SERVER_NAME
+              value: "Dissidents Den"
+            - name: SERVER_DESCRIPTION
+              value: "Demons Run, when a good man goes to war"
+            - name: SERVER_PASSWORD
+              value: "K3Yst0n3"
+            - name: ADMIN_PASSWORD
+              value: "Peacemaker.137"
+            - name: PUID
+              value: "568"
+            - name: PGID
+              value: "568"
+          volumeMounts:
+            - name: palworld-pv
+              mountPath: /opt
+      volumes:
+        - name: palworld-pv
+          persistentVolumeClaim:
+            claimName: palworld-pvc

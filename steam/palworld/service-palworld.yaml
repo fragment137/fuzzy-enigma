@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: steam
+  namespace: steam
+  annotations:
+    metallb.universe.tf/address-pool: palworld
+    metallb.universe.tf/allow-shared-ip: palworld
+  labels:
+    app: steam
+spec:
+  type: LoadBalancer
+  selector:
+    app: steam
+  ports:
+  - protocol: UDP
+    port: 8211
+    targetPort: 8211
+    name: palworld-udp
+

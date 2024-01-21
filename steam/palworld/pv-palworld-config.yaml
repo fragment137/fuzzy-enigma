@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: steam-pv
+  name: palworld-pv
   namespace: steam
 spec:
   capacity:
@@ -9,13 +9,13 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: /mnt/steam
+    path: /mnt/steam/palworld
   storageClassName: manual
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: steam-pvc
+  name: palworld-pvc
   namespace: steam
 spec:
   storageClassName: manual

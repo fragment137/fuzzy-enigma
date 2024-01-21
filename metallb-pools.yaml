@@ -25,6 +25,17 @@ apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
   creationTimestamp: null
+  name: palworld
+  namespace: metallb-system
+spec:
+    addresses:
+    - 192.168.1.242-192.168.1.242
+status: {}
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  creationTimestamp: null
   name: deluge
   namespace: metallb-system
 spec:
@@ -85,6 +96,17 @@ metadata:
 spec:
   ipAddressPools:
   - valheim
+status: {}
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  creationTimestamp: null
+  name: l2advertisement2
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - palworld
 status: {}
 ---
 apiVersion: metallb.io/v1beta1
