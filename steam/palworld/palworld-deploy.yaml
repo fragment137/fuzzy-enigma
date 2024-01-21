@@ -18,18 +18,16 @@ spec:
     spec:
       containers:
         - name: palworld
-          image: hub.docker.com/r/jammsen/palworld-dedicated-server
+          image: thijsvanloef/palworld-server-docker
           env:
-            - name: ALWAYS_UPDATE_ON_START
+            - name: UPDATE_ON_BOOT
               value: "true"
-            - name: COMMUNITY_SERVER
+            - name: COMMUNITY
               value: "true"
-            - name: MULTITHREAD_ENABLED
+            - name: MULTITHREAD
               value: "true"
             - name: SERVER_NAME
               value: "Dissidents Den"
-            - name: SERVER_DESCRIPTION
-              value: "Demons Run, when a good man goes to war"
             - name: SERVER_PASSWORD
               value: "K3Yst0n3"
             - name: ADMIN_PASSWORD
