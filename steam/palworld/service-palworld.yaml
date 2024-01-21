@@ -17,4 +17,3 @@ spec:
     port: 8211
     targetPort: 8211
     name: palworld-udp
-
