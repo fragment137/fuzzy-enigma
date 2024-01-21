@@ -38,7 +38,7 @@ spec:
               value: "568"
           volumeMounts:
             - name: palworld-pv
-              mountPath: /opt
+              mountPath: /palworld
       volumes:
         - name: palworld-pv
           persistentVolumeClaim:
