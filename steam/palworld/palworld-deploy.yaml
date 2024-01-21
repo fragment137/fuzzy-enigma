@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: palworld
-          image: jammsen/docker-palworld-dedicated-server
+          image: github.com/jammsen/docker-palworld-dedicated-server
           env:
             - name: ALWAYS_UPDATE_ON_START
               value: "true"
