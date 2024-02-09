@@ -91,18 +91,7 @@ apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
   creationTimestamp: null
-  name: l2advertisement2
-  namespace: metallb-system
-spec:
-  ipAddressPools:
-  - valheim
-status: {}
----
-apiVersion: metallb.io/v1beta1
-kind: L2Advertisement
-metadata:
-  creationTimestamp: null
-  name: l2advertisement2
+  name: l2apalworld
   namespace: metallb-system
 spec:
   ipAddressPools:
@@ -113,7 +102,7 @@ apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
   creationTimestamp: null
-  name: l2advertisement3
+  name: l2aradarr
   namespace: metallb-system
 spec:
   ipAddressPools:
@@ -124,7 +113,7 @@ apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
   creationTimestamp: null
-  name: l2advertisement4
+  name: l2asonarr
   namespace: metallb-system
 spec:
   ipAddressPools:
@@ -135,7 +124,7 @@ apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
   creationTimestamp: null
-  name: l2advertisement5
+  name: l2adeluge
   namespace: metallb-system
 spec:
   ipAddressPools:
@@ -146,7 +135,7 @@ apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
   creationTimestamp: null
-  name: l2advertisement6
+  name: l2aingress
   namespace: metallb-system
 spec:
   ipAddressPools:
@@ -157,7 +146,7 @@ apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
   creationTimestamp: null
-  name: l2advertisement6
+  name: l2atdarr
   namespace: metallb-system
 spec:
   ipAddressPools:
@@ -168,7 +157,7 @@ apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
   creationTimestamp: null
-  name: l2advertisement6
+  name: l2atdarrsrv
   namespace: metallb-system
 spec:
   ipAddressPools:
@@ -179,10 +168,10 @@ apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
   creationTimestamp: null
-  name: l2advertisement6
+  name: l2avalheim
   namespace: metallb-system
 spec:
   ipAddressPools:
-  - steam
+  - valheim
 status: {}
 ---
