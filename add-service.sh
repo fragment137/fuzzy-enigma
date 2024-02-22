@@ -23,10 +23,11 @@ gcloud beta compute backend-services add-backend app-$domain-backend --global --
 gcloud compute ssl-certificates create $domain-ssl-cert --domains $fulldomain
 gcloud compute ssl-certificates create api-$domain-ssl-cert --domains api.$fulldomain
 gcloud compute ssl-certificates create app-$domain-ssl-cert --domains app.$fulldomain
+gcloud compute ssl-certificates create www-$domain-ssl-cert --domains www.$fulldomain
 
 currentcerts=`gcloud compute target-https-proxies describe $project-https-proxy --global --format="get(sslCertificates)" | sed -r 's/[;]+/,/g'`
 
-certs=$currentcerts,$domain-ssl-cert,api-$domain-ssl-cert,app-$domain-ssl-cert
+certs=$currentcerts,$domain-ssl-cert,api-$domain-ssl-cert,app-$domain-ssl-cert,www-$domain-ssl-cert
 
 gcloud compute target-https-proxies update $project-https-proxy --ssl-certificates=$certs
 
