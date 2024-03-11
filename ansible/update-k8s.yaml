@@ -1,0 +1,46 @@
+---
+- name: Unhold Kubernetes packages
+  hosts: all
+  become: yes
+  tasks:
+    - name: Unhold kubeadm, kubelet, and kubectl packages
+      ansible.builtin.shell: "apt-mark unhold kubeadm kubelet kubectl"
+      args:
+        warn: false
+
+- name: Update Kubernetes packages on Master node
+  hosts: k8s_master
+  become: yes
+  serial: 1  # Ensures that updates happen one at a time
+  tasks:
+    - name: Update kubeadm, kubelet, and kubectl packages
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: latest
+      loop:
+        - kubeadm
+        - kubelet
+        - kubectl
+
+- name: Update Kubernetes packages on other nodes
+  hosts: k8s_nodes
+  become: yes
+  serial: 1  # Ensures that updates happen one at a time
+  tasks:
+    - name: Update kubeadm, kubelet, and kubectl packages
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: latest
+      loop:
+        - kubeadm
+        - kubelet
+        - kubectl
+
+- name: Hold Kubernetes packages
+  hosts: all
+  become: yes
+  tasks:
+    - name: Hold kubeadm, kubelet, and kubectl packages
+      ansible.builtin.shell: "apt-mark hold kubeadm kubelet kubectl"
+      args:
+        warn: false
