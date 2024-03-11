@@ -46,6 +46,6 @@ spec:
           claimName: sonsforest-steam-pvc
       - name: game-volume
         persistentVolumeClaim:
-          claimName: sonsforest-game-pvc
+          claimName: sonsforest-pvc
       - name: winedata-volume
         emptyDir: {}
