@@ -1,0 +1,13 @@
+---
+- name: Update and Upgrade APT packages
+  hosts: all
+  become: yes  # Elevates privilege to run apt commands which require sudo
+  tasks:
+    - name: Update APT cache
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600  # Optional: avoids running update if cache is less than an hour old
+
+    - name: Upgrade all APT packages
+      ansible.builtin.apt:
+        upgrade: yes

@@ -1,0 +1,29 @@
+---
+- name: Configure Kubernetes APT repository
+  hosts: all
+  become: yes
+  tasks:
+    - name: Add the Kubernetes signing key
+      ansible.builtin.shell: |
+        curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+      args:
+        creates: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+    - name: Add Kubernetes APT repository
+      ansible.builtin.lineinfile:
+        path: /etc/apt/sources.list.d/kubernetes.list
+        line: 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /'
+        create: yes
+
+    - name: Remove the specified Kubernetes APT repository entry
+      ansible.builtin.find:
+        paths: /etc/apt/sources.list.d/
+        patterns: '*.list'
+      register: files_to_check
+
+    - name: Remove kubernetes-xenial Release from sources
+      ansible.builtin.lineinfile:
+        path: "{{ item.path }}"
+        state: absent
+        regexp: '^deb.*https://apt.kubernetes.io.*kubernetes-xenial.*$'
+      loop: "{{ files_to_check.files }}"
