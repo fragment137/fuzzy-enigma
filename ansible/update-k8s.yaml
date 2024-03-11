@@ -1,12 +1,10 @@
 ---
 - name: Unhold Kubernetes packages
-  hosts: all
+  hosts: k8s_master:k8s_nodes
   become: yes
   tasks:
     - name: Unhold kubeadm, kubelet, and kubectl packages
       ansible.builtin.shell: "apt-mark unhold kubeadm kubelet kubectl"
-      args:
-        warn: false
 
 - name: Update Kubernetes packages on Master node
   hosts: k8s_master
@@ -37,10 +35,8 @@
         - kubectl
 
 - name: Hold Kubernetes packages
-  hosts: all
+  hosts: k8s_master:k8s_nodes
   become: yes
   tasks:
     - name: Hold kubeadm, kubelet, and kubectl packages
       ansible.builtin.shell: "apt-mark hold kubeadm kubelet kubectl"
-      args:
-        warn: false
