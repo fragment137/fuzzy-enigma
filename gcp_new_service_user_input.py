@@ -16,11 +16,14 @@ def main():
 
     # Prompt for user input instead of reading from CSV
     full_domain = input("Enter full domain (e.g., example.com): ")
-    subdomain = input("Enter subdomain (e.g., www): ")
+    subdomain_input = input("Enter subdomains, comma delimited (e.g., www,api): ")
     project_name = input("Enter project name: ")
     service_name = input("Enter service name: ")
+    region = input("Enter a region")
 
+    subdomains = subdomains-input.split(',')
     domain = full_domain.split('.')[0]
+    object_prefixes = [f"{subdomain}-{domain}" for subdomain in subdomains]
     object_prefix = f"{subdomain}-{domain}"
 
     print(f"Creating Serverless NEG for {subdomain}.{full_domain}")
@@ -28,9 +31,9 @@ def main():
     gcloud_command([
         "compute", "network-endpoint-groups", "create",
         f"{object_prefix}-serverless-neg",
-        "--region=northamerica-northeast1",
+        "--region=" + region,
         "--network-endpoint-type=SERVERLESS",
-        "--cloud-run-service=" + service_name
+        "--app-engine-app=" + service_name
     ])
 
     print(f"Creating Backend Service for {subdomain}.{full_domain}")
@@ -47,13 +50,15 @@ def main():
         "compute", "backend-services", "add-backend", backend_service_name,
         "--global",
         "--network-endpoint-group=" + f"{object_prefix}-serverless-neg",
-        "--network-endpoint-group-region=northamerica-northeast1"
+        "--network-endpoint-group-region=" + region
     ])
     
-    # Create SSL certificate and add to certs list
+    # Create SSL certificates and add to certs list
     ssl_cert_name = f"{object_prefix}-ssl-cert"
     full_domain_for_cert = f"{subdomain}.{full_domain}"
-    print(f"Creating SSL Certificate for {full_domain_for_cert}")
+    print(f"Creating SSL Certificates for {full_domain_for_cert}")
+    if not gcloud_command(["compute", "ssl-certificates", "describe", f"{domain}-ssl-cert"]):
+        gcloud_command(["compute", "ssl-certificates", "create", f"{domain}-ssl-cert", "--domains=" + full_domain])
     gcloud_command([
         "compute", "ssl-certificates", "create", ssl_cert_name,
         "--domains=" + full_domain_for_cert
@@ -99,6 +104,31 @@ def main():
         "--target-https-proxy", https_proxy_name,
         "--address", ip_name,
         "--ports", "443"
+    ])
+    # Step 1: Create an HTTP URL map for redirecting all traffic to HTTPS
+    http_url_map_name = f"{project_name}-http-url-map"
+    print(f"Creating HTTP URL Map for redirecting to HTTPS named {http_url_map_name}")
+    gcloud_command([
+        "compute", "url-maps", "create", http_url_map_name,
+        "--default-redirect-action", f"\"https-redirect,strip-query=false,https-redirect-code=MOVED_PERMANENTLY_DEFAULT, prefix-redirect='https://{full_domain}'\""
+    ])
+
+    # Step 2: Create a target HTTP proxy using the HTTP URL map
+    http_proxy_name = f"{project_name}-http-proxy"
+    print(f"Creating Target HTTP Proxy named {http_proxy_name}")
+    gcloud_command([
+        "compute", "target-http-proxies", "create", http_proxy_name,
+        "--url-map", http_url_map_name
+    ])
+
+    # Step 3: Create a global forwarding rule to redirect HTTP to HTTPS
+    http_forwarding_rule_name = f"{project_name}-http-forwarding-rule"
+    print(f"Creating Global Forwarding Rule for HTTP named {http_forwarding_rule_name}")
+    gcloud_command([
+        "compute", "forwarding-rules", "create", http_forwarding_rule_name,
+        "--global",
+        "--target-http-proxy", http_proxy_name,
+        "--ports", "80"
     ])
 
 if __name__ == "__main__":
