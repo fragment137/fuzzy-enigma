@@ -16,14 +16,14 @@ def main():
 
     # Prompt for user input instead of reading from CSV
     full_domain = input("Enter full domain (e.g., example.com): ")
-    subdomain_input = input("Enter subdomains, comma delimited (e.g., www,api): ")
+    subdomain = input("Enter subdomains, comma delimited (e.g., www,api): ")
     project_name = input("Enter project name: ")
     service_name = input("Enter service name: ")
     region = input("Enter a region")
 
-    subdomains = subdomains-input.split(',')
+    #subdomains = subdomains-input.split(',')
     domain = full_domain.split('.')[0]
-    object_prefixes = [f"{subdomain}-{domain}" for subdomain in subdomains]
+    #object_prefixes = [f"{subdomain}-{domain}" for subdomain in subdomains]
     object_prefix = f"{subdomain}-{domain}"
 
     print(f"Creating Serverless NEG for {subdomain}.{full_domain}")
