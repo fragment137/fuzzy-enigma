@@ -1,12 +1,11 @@
-# Connect to Azure
+#Connect to Azure
 Connect-AzAccount
+#Set context to correct subscription and tenant
+Set-AzContext -Subscription "<SubName>" -Tenant "<TenantID>"
 
-# Set context to the correct subscription and tenant
-Set-AzContext -Subscription "<INSERT SUBSCRIPTION NAME>" -Tenant "<ENTER TENANT ID>"
-
-# Define the specific vault name and its resource group
-$vaultName = "rsv-cae-prd-backup-01"
-$resourceGroupName = "rg-cae-prd-bcdr-01" # Replace <YourResourceGroupName> with the actual resource group name where the vault resides
+# Define the specific vault name
+$vaultName = "<YourVaultName>"
+$resourceGroupName = "<YourResourceGroupName>" # Replace <YourResourceGroupName> with the actual resource group name where the vault resides
 
 # Get the specific Recovery Services vault
 $vault = Get-AzRecoveryServicesVault -Name $vaultName -ResourceGroupName $resourceGroupName
@@ -19,7 +18,12 @@ $containers = Get-AzRecoveryServicesBackupContainer -ContainerType "AzureVM" -St
 
 # Get all VMs in the subscription
 $allVMs = Get-AzVM
-$existingVMIds = $allVMs.Id -as [HashSet[string]]
+
+# Initialize a hashtable for VM IDs
+$existingVMIds = @{}
+foreach ($vm in $allVMs) {
+    $existingVMIds[$vm.Id] = $true
+}
 
 # Initialize a list to keep track of orphaned backup items
 $orphanedBackupItems = @()
@@ -29,15 +33,21 @@ foreach ($container in $containers) {
     $backupItems = Get-AzRecoveryServicesBackupItem -Container $container -WorkloadType "AzureVM"
 
     foreach ($item in $backupItems) {
-        if (-not $existingVMIds.Contains($item.SourceResourceId)) {
+        if (-not $existingVMIds.ContainsKey($item.SourceResourceId)) {
             # The VM for this backup item does not exist
-            $orphanedBackupItems += $item
+            # Extracting the VM name from the Name field
+            $vmName = ($item.Name -split ';')[-1]
+            $orphanDetails = New-Object PSObject -Property @{
+                VMName = $vmName
+                LastBackupTime = $item.LastBackupTime
+            }
+            $orphanedBackupItems += $orphanDetails
         }
     }
 }
 
 # Output the list of orphaned backup items
-$orphanedBackupItems | Format-Table Name, ResourceGroupName, ContainerName, LastBackupTime
+$orphanedBackupItems | Format-Table VMName, LastBackupTime
 
-# If needed, export the list to a CSV file
-$orphanedBackupItems | Export-Csv -Path "./OrphanedBackupItems.csv" -NoTypeInformation
+# Export the list to a CSV file with only specified columns
+$orphanedBackupItems | Select-Object VMName, LastBackupTime | Export-Csv -Path "./OrphanedBackupItems.csv" -NoTypeInformation

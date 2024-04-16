@@ -1,9 +1,10 @@
 #Connect to Azure
 Connect-AzAccount
+#Set context to correct subscription and tenant
+Set-AzContext -Subscription "<SubName>" -Tenant "<TenantID>"
 
-Set-AzContext -Subscription "<INSERT SUBSCRIPTION NAME>" -Tenant "<ENTER TENANT ID>"
 # Define the specific vault name
-$vaultName = "<vault name>"
+$vaultName = "<YourVaultName>"
 $resourceGroupName = "<YourResourceGroupName>" # Replace <YourResourceGroupName> with the actual resource group name where the vault resides
 
 # Get the specific Recovery Services vault
@@ -38,4 +39,4 @@ $unprotectedVMs = $allVMs | Where-Object { -not $protectedVMs.ContainsKey($_.Id)
 $unprotectedVMs | Format-Table Name, ResourceGroupName, Location
 
 # If needed, export the list to a CSV file
-$unprotectedVMs | Select-Items Name, ResourceGroupName | Export-Csv -Path "./UnprotectedVMs.csv" -NoTypeInformation
+$unprotectedVMs | Select-Object Name, ResourceGroupName | Export-Csv -Path "./UnprotectedVMs.csv" -NoTypeInformation
