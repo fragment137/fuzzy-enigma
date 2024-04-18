@@ -1,10 +1,10 @@
 #Connect to Azure
 Connect-AzAccount
 #Set context to correct subscription and tenant
-Set-AzContext -Subscription "<SubName>" -Tenant "<TenantID>"
+Set-AzContext -Subscription "<Subscription ID>" -Tenant "<Tenant ID>"
 
 # Define the specific vault name
-$vaultName = "<YourVaultName>"
+$vaultName = "<VaultName>"
 $resourceGroupName = "<YourResourceGroupName>" # Replace <YourResourceGroupName> with the actual resource group name where the vault resides
 
 # Get the specific Recovery Services vault
