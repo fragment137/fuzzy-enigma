@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: valheim-pv
+  name: insurgency-pv
   namespace: steam
 spec:
   capacity:
@@ -9,13 +9,13 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: /mnt/steam/valheim
+    path: /mnt/steam/insurgency
   storageClassName: manual
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: valheim-steam-pv
+  name: insurgency-steam-pv
   namespace: steam
 spec:
   capacity:
@@ -23,13 +23,13 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: /mnt/steam/opt/valheim
+    path: /mnt/steam/opt/insurgency
   storageClassName: manual
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: valheim-pvc
+  name: insurgency-pvc
   namespace: steam
 spec:
   storageClassName: manual
@@ -42,7 +42,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: valheim-steam-pvc
+  name: insurgency-steam-pvc
   namespace: steam
 spec:
   storageClassName: manual

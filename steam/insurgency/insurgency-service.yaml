@@ -1,31 +1,31 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: valheim
+  name: insurgency
   namespace: steam
   annotations:
-    metallb.universe.tf/address-pool: valheim
-    metallb.universe.tf/allow-shared-ip: valheim
+    metallb.universe.tf/address-pool: insurgency
+    metallb.universe.tf/allow-shared-ip: insurgency
   labels:
-    app: valheim
+    app: insurgency
 spec:
   type: LoadBalancer
   selector:
-    app: valheim
+    app: insurgency
   ports:
   - protocol: UDP
     port: 27015
     targetPort: 27015
-    name: valheim-gameplay
+    name: insurgency-gameplay
   - protocol: UDP
     port: 27016
     targetPort: 27016
-    name: valheim-announce
+    name: insurgency-announce
   - protocol: UDP
     port: 2456
     targetPort: 2456
-    name: valheim-server
+    name: insurgency-server
   - protocol: UDP
     port: 2457
     targetPort: 2457
-    name: valheim-query
+    name: insurgency-query

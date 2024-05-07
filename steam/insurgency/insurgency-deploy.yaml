@@ -2,23 +2,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: valheim
+  name: insurgency
   namespace: steam
   labels:
-    app: valheim
+    app: insurgency
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: valheim
+      app: insurgency
   template:
     metadata:
       labels:
-        app: valheim
+        app: insurgency
     spec:
       containers:
-      - name: valheim
-        image: lloesche/valheim-server
+      - name: insurgency
+        image: lloesche/insurgency-server
         env:
         - name: TZ
           value: 'America/Toronto'
@@ -55,13 +55,13 @@ spec:
             memory: 8Gi
         volumeMounts:
         - mountPath: "/config"
-          name: valheim-server
-        - mountPath: "/opt/valheim"
+          name: insurgency-server
+        - mountPath: "/opt/insurgency"
           name: steam
       volumes:
       - name: steam
         persistentVolumeClaim:
-          claimName: valheim-steam-pvc
-      - name: valheim-server
+          claimName: insurgency-steam-pvc
+      - name: insurgency-server
         persistentVolumeClaim:
-          claimName: valheim-pvc
+          claimName: insurgency-pvc

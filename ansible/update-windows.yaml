@@ -1,0 +1,28 @@
+---
+- name: Update and reboot Windows machines
+  hosts: windows
+  gather_facts: no
+
+  tasks:
+    - name: Check for any applicable updates
+      win_updates:
+        category_names:
+          - CriticalUpdates
+          - SecurityUpdates
+          - UpdateRollups
+        state: searched
+      register: update_result
+
+    - name: Apply all found updates
+      win_updates:
+        category_names:
+          - CriticalUpdates
+          - SecurityUpdates
+          - UpdateRollups
+        state: installed
+      when: update_result.found_update_count > 0
+      register: update_install
+
+    - name: Reboot the machine if required
+      win_reboot:
+      when: update_install.reboot_required
