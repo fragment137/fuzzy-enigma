@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: valheim-pv
+  namespace: steam
+spec:
+  capacity:
+    storage: 1000Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /mnt/steam/valheim
+  storageClassName: manual
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: valheim-steam-pv
+  namespace: steam
+spec:
+  capacity:
+    storage: 1000Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /mnt/steam/opt/valheim
+  storageClassName: manual
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: valheim-pvc
+  namespace: steam
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1000Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: valheim-steam-pvc
+  namespace: steam
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1000Gi
