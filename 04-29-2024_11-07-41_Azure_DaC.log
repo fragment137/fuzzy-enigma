@@ -1,8 +1,0 @@
-[11:07:41] - Computer Info Gathered.
-[11:07:42] - PowerShellGet module version 2.2.5 exists.
-[11:07:43] - Az.Resources PowerShell module version 5.2.0 exists.
-[11:07:43] - Az.Accounts PowerShell module version 2.13.1 exists.
-[11:07:44] - Az.ResourceGraph PowerShell module version 0.12.0 exists.
-[11:07:45] - Az.Accounts Az.ResourceGraph Az.Resources
-[11:07:45] - Running in local PowerShell session mode...
-[11:07:45] - You will need to capture the file(s) from local file path.
