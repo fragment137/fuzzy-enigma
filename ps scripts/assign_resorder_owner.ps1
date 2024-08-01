@@ -7,8 +7,8 @@ Set-AzContext -Subscription "<Subscription ID>" -Tenant "<Tenant ID>"
 # Get all reservation orders
 $reservationOrders = Get-AzReservationOrder
 
-# Filter the reservation orders to include only those with status 'Succeeded' or 'Expiring'
-$filteredOrders = $reservationOrders | Where-Object { $_.ProvisioningState -eq 'Succeeded' -or $_.Status -eq 'Expiring' }
+# Filter the reservation orders to include only those with status 'Succeeded'
+$filteredOrders = $reservationOrders | Where-Object { $_.ProvisioningState -eq 'Succeeded' }
 
 # Define the user and role to be assigned
 $userEmail = "<User Email>"
